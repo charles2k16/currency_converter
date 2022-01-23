@@ -1,0 +1,81 @@
+:root {
+  --primary: #b2483c;
+  --light_grey: #444444;
+  --sec_grey: #929192;
+}
+html,
+body {
+  min-height: 100%;
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: #fe6857;
+  min-width: 600px;
+}
+* {
+  margin: 0;
+  padding: 0;
+  font-size: 15px;
+  line-height: 19px;
+  box-sizing: border-box;
+}
+
+hr.rule {
+  border: 1px solid rgb(31, 29, 29);
+}
+
+.d-flex {
+  display: flex;
+}
+.d-flex-justify-between {
+  display: flex;
+  justify-content: space-between;
+}
+.d-flex-justify-center {
+  display: flex;
+  justify-content: center;
+}
+.d-flex-justify-end {
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* margin-top */
+.mt-0 {
+  margin-top: 5px;
+}
+.mt-10 {
+  margin-top: 10px;
+}
+.mt-20 {
+  margin-top: 20px;
+}
+.mt-30 {
+  margin-top: 20px;
+}
+
+/* margin-right */
+.mr-20 {
+  margin-right: 20px;
+}
+.mr-10 {
+  margin-right: 10px;
+}
+.mr-0 {
+  margin-right: 5px;
+}
+
+.mx-10 {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+.mx-15 {
+  margin-left: 15px;
+  margin-right: 15px;
+}
+.mx-30 {
+  margin-left: 30px;
+  margin-right: 30px;
+}
+
+.white {
+  color: rgb(240, 235, 235);
+}
