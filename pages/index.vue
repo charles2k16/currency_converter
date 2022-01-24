@@ -18,15 +18,47 @@
 
       <hr class="rule mt-20" />
 
+      <!-- Input Currency -->
       <div class="mt-20 mx-30 exchange_container">
         <h3>CURRENCY I HAVE</h3>
         <p class="mt-0">I have this much to exchange</p>
 
         <hr class="rule mt-20" />
 
-        <div class="exchange_selector mt-20 d-flex-justify-end">
-          <div>
+        <div class="mt-20">
+          <div class="d-flex-justify-end">
             <CurrencySelector />
+          </div>
+          <div class="exchange_input mt-20 d-flex-justify-end">
+            <span class="label mr-10">USD</span>
+            <span
+              class="input white"
+              role="textbox"
+              contenteditable
+              @input="handleInputAmount"
+              >{{ amountEntered }}</span
+            >
+          </div>
+        </div>
+      </div>
+
+      <!-- Output Currency -->
+
+      <div class="mt-30 mx-30 exchange_container">
+        <h3>CURRENCY I WANT</h3>
+        <p class="mt-0">Expected amount after exchange</p>
+
+        <hr class="rule mt-20" />
+
+        <div class="mt-20">
+          <div class="d-flex-justify-end">
+            <CurrencySelector />
+          </div>
+          <div class="exchange_input mt-20 d-flex-justify-end">
+            <span class="label mr-10">USD</span>
+            <span class="input white" role="textbox" :contenteditable="false">{{
+              returnedAmount
+            }}</span>
           </div>
         </div>
       </div>
@@ -38,20 +70,34 @@
 export default {
   name: 'IndexPage',
   data() {
-    return {}
+    return {
+      fromCurrency: '',
+      toCurrency: '',
+      amountEntered: null,
+      returnedAmount: null,
+    }
+  },
+  methods: {
+    handleInputAmount(e) {
+      this.amountEntered = e.target.innerHTML
+
+      console.log(this.amountEntered)
+    },
   },
 }
 </script>
 
 <style lang="scss" scoped>
 .converter_container {
-  height: 100vh;
-  width: 100vw;
-  padding: 50px 0;
+  padding: 50px 5px;
 
   .conv_wrapper {
-    max-width: 450px;
+    margin: 0 auto;
+    max-width: 400px;
     width: 100%;
+
+    overflow: scroll;
+    -webkit-overflow-scrolling: touch;
     background: #121212;
     border-radius: 40px;
     padding: 20px 0;
@@ -95,6 +141,60 @@ export default {
       }
       p {
         color: var(--light_grey);
+      }
+
+      .exchange_input {
+        align-items: flex-end;
+
+        .label {
+          color: var(--sec_grey);
+          font-size: 1.3rem;
+        }
+
+        .input {
+          background: transparent;
+          height: 40px;
+          max-width: 300px;
+          display: flex;
+          align-items: center;
+          font-size: 36px;
+          font-weight: bold;
+        }
+
+        .input[contenteditable]:empty::before {
+          content: '0.00';
+          color: gray;
+        }
+
+        // output currency
+
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+          -webkit-appearance: none;
+          margin: 0;
+        }
+
+        /* Firefox */
+        input[type='number'] {
+          -moz-appearance: textfield;
+        }
+        input[disabled] {
+          opacity: 1;
+        }
+        input {
+          background: transparent;
+
+          width: 130px;
+
+          border: none;
+
+          font-size: 36px;
+          font-weight: bold;
+
+          ::placeholder {
+            font-size: 36px;
+          }
+        }
       }
     }
   }
