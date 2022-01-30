@@ -20,6 +20,9 @@ hr.rule {
   border: 1px solid rgb(31, 29, 29);
 }
 
+.d-block {
+  display: block;
+}
 .d-flex {
   display: flex;
 }

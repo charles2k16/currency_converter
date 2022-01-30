@@ -42,8 +42,13 @@
         </div>
       </div>
 
-      <!-- Output Currency -->
+      <!-- Switch Currency -->
+      <div class="switch_wrapper mx-30 mt-20">
+        <img src="/switch.png" alt="icon" width="25px" />
+        <span>Switch Currencies</span>
+      </div>
 
+      <!-- Output Currency -->
       <div class="mt-30 mx-30 exchange_container">
         <h3>CURRENCY I WANT</h3>
         <p class="mt-0">Expected amount after exchange</p>
@@ -61,6 +66,17 @@
             }}</span>
           </div>
         </div>
+      </div>
+
+      <hr class="rule mt-20" />
+
+      <div class="conve_footer mt-30 mx-30">
+        <span class="d-block">USD / EUR</span>
+        <span class="d-block mt-0">{{ new Date() }}</span>
+
+        <span class="d-block mt-20"
+          >1 USD = <span class="rate">6.35444 EUR</span></span
+        >
       </div>
     </div>
   </div>
@@ -126,7 +142,7 @@ export default {
       align-items: flex-end;
 
       h1 {
-        font-size: 2rem;
+        font-size: 2em;
       }
 
       span {
@@ -135,6 +151,15 @@ export default {
       }
     }
 
+    .switch_wrapper {
+      height: 40px;
+      display: flex;
+      align-items: center;
+
+      span {
+        color: var(--primary);
+      }
+    }
     .exchange_container {
       h3 {
         color: rgb(192, 189, 189);
@@ -195,6 +220,16 @@ export default {
             font-size: 36px;
           }
         }
+      }
+    }
+
+    .conve_footer {
+      span {
+        color: rgb(192, 189, 189);
+      }
+
+      .rate {
+        color: green;
       }
     }
   }
