@@ -27,10 +27,20 @@
 
         <div class="mt-20">
           <div class="d-flex-justify-end">
-            <CurrencySelector />
+            <span class="currency d-flex">
+              <img
+                :src="getImgUrl(currentCurrency.image)"
+                alt="us"
+                width="22px"
+              />
+              <a class="btn" href="#open-modal">
+                <span class="label mx-15">{{ currentCurrency.name }}</span>
+              </a>
+              <img src="/down.png" alt="arr" width="16px" />
+            </span>
           </div>
           <div class="exchange_input mt-20 d-flex-justify-end">
-            <span class="label mr-10">USD</span>
+            <span class="label mr-10">{{ fromCurrency }}</span>
             <span
               class="input white"
               role="textbox"
@@ -57,10 +67,20 @@
 
         <div class="mt-20">
           <div class="d-flex-justify-end">
-            <CurrencySelector />
+            <span class="currency d-flex">
+              <img
+                :src="getImgUrl(currentCurrency.image)"
+                alt="us"
+                width="22px"
+              />
+              <a class="btn" href="#open-modal">
+                <span class="label mx-15">{{ currentCurrency.name }}</span>
+              </a>
+              <img src="/down.png" alt="arr" width="16px" />
+            </span>
           </div>
           <div class="exchange_input mt-20 d-flex-justify-end">
-            <span class="label mr-10">USD</span>
+            <span class="label mr-10">{{ toCurrency }}</span>
             <span class="input white" role="textbox" :contenteditable="false">{{
               returnedAmount
             }}</span>
@@ -71,14 +91,17 @@
       <hr class="rule mt-20" />
 
       <div class="conve_footer mt-30 mx-30">
-        <span class="d-block">USD / EUR</span>
+        <span class="d-block">{{ fromCurrency }} / {{ toCurrency }}</span>
         <span class="d-block mt-0">{{ new Date() }}</span>
 
         <span class="d-block mt-20"
-          >1 USD = <span class="rate">6.35444 EUR</span></span
+          >1 {{ fromCurrency }} =
+          <span class="rate">6.35444 {{ toCurrency }}</span></span
         >
       </div>
     </div>
+
+    <CurrencySelector />
   </div>
 </template>
 
@@ -87,16 +110,28 @@ export default {
   name: 'IndexPage',
   data() {
     return {
-      fromCurrency: '',
-      toCurrency: '',
+      fromCurrency: 'USD',
+      toCurrency: 'HKD',
       amountEntered: null,
       returnedAmount: null,
+      currentCurrency: {
+        symbol: 'USD',
+        name: 'US Dollar',
+        image: 'USD.png',
+      },
+      convertForm: {
+        from: '',
+        to: '',
+        amount: 0,
+      },
     }
   },
   methods: {
+    getImgUrl(pic) {
+      return require('../assets/flags/' + pic)
+    },
     handleInputAmount(e) {
       this.amountEntered = e.target.innerHTML
-
       console.log(this.amountEntered)
     },
   },
@@ -105,7 +140,7 @@ export default {
 
 <style lang="scss" scoped>
 .converter_container {
-  padding: 50px 5px;
+  padding: 50px 0;
 
   .conv_wrapper {
     margin: 0 auto;
@@ -222,7 +257,14 @@ export default {
         }
       }
     }
+    .currency {
+      align-items: center;
 
+      .label {
+        color: var(--sec_grey);
+        font-size: 1.3rem;
+      }
+    }
     .conve_footer {
       span {
         color: rgb(192, 189, 189);
