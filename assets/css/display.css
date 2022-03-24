@@ -1,9 +1,18 @@
 /* Extra small devices (phones, 600px and down) */
 @media only screen and (max-width: 600px) {
+  .converter_container {
+    padding: 0px 0px !important;
+  }
+  .conv_wrapper {
+    border-radius: 10px;
+  }
 }
 
 /* ----------- iPhone 12 pro max ----------- */
 @media only screen and (device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3) {
+  .converter_container {
+    padding: 0px 0px !important;
+  }
 }
 
 /* ----------- iPhone 11 pro max  ----------- */

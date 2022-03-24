@@ -212,9 +212,7 @@ export default {
   .conv_wrapper {
     margin: 0 auto;
     max-width: 400px;
-    width: 370px;
-    height: 100vh;
-
+    width: 95%;
     overflow: scroll;
     -webkit-overflow-scrolling: touch;
     background: #121212;
