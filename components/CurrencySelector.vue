@@ -3,15 +3,7 @@
     <div id="open-modal" class="modal-window">
       <div>
         <span class="modal-close" @click="$emit('closeModal')">Close</span>
-        <div
-          v-if="!viewCurrencyList"
-          class="d-flex mt-30"
-          style="align-items: center; justify-content: center"
-        >
-          <ViewLoader />
-        </div>
-
-        <div v-else class="mt-30">
+        <div class="mt-30">
           <a href="#">
             <div
               v-for="(currency, index) in currencies"
@@ -54,10 +46,9 @@ export default {
       currencies: [],
     }
   },
-  async fetch() {
-    const currencies = await currencyService.getCurrencies()
+  created() {
+    const currencies = currencyService.getCurrencies()
     this.currencies = currencies.data
-    this.viewCurrencyList = true
   },
   methods: {
     getImgUrl(pic) {

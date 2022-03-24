@@ -1,134 +1,123 @@
 <template>
-  <div>
-    <div class="overlay">
-      <div class="overlay__inner">
-        <div class="overlay__content"><span class="spinner"></span></div>
+  <div class="converter_container d-flex-justify-center">
+    <div class="conv_wrapper">
+      <div class="conv_head mx-30">
+        <span class="link active">Converter</span>
+
+        <span class="link">Calculator</span>
       </div>
-    </div>
-    <div class="converter_container d-flex-justify-center">
-      <div class="conv_wrapper">
-        <div class="conv_head mx-30">
-          <span class="link active">Converter</span>
 
-          <span class="link">Calculator</span>
-        </div>
+      <div class="mt-20 conv_title mx-30">
+        <h1 class="white">Currency</h1>
 
-        <div class="mt-20 conv_title mx-30">
-          <h1 class="white">Currency</h1>
-
-          <div>
-            <span>12th Jan 2022</span>
-            <img src="/clock.png" alt="time" width="12px" />
-          </div>
-        </div>
-
-        <hr class="rule mt-20" />
-
-        <!-- Input Currency -->
-        <div class="mt-20 mx-30 exchange_container">
-          <h3>CURRENCY I HAVE</h3>
-          <p class="mt-0">I have this much to exchange</p>
-
-          <hr class="rule mt-20" />
-
-          <div class="mt-20">
-            <div class="d-flex-justify-end">
-              <span class="currency d-flex" @click="openModal('input')">
-                <img
-                  :src="getImgUrl(currentInputCurrency.image)"
-                  alt="us"
-                  width="22px"
-                />
-
-                <span class="label mx-15">{{ currentInputCurrency.name }}</span>
-
-                <img src="/down.png" alt="arr" width="16px" />
-              </span>
-            </div>
-            <div class="exchange_input mt-20 d-flex-justify-end">
-              <span class="label mr-10">{{ currentInputCurrency.symbol }}</span>
-              <input
-                v-model="amountEntered"
-                type="number"
-                class="input white"
-                placeholder="0.000"
-              />
-            </div>
-          </div>
-        </div>
-
-        <!-- Switch Currency -->
-        <div class="switch_wrapper mx-30 mt-20">
-          <img src="/switch.png" alt="icon" width="25px" />
-          <span>Switch Currencies</span>
-        </div>
-
-        <!-- Output Currency -->
-        <div class="mt-30 mx-30 exchange_container">
-          <h3>CURRENCY I WANT</h3>
-          <p class="mt-0">Expected amount after exchange</p>
-
-          <hr class="rule mt-20" />
-
-          <div class="mt-20">
-            <div class="d-flex-justify-end">
-              <span class="currency d-flex" @click="openModal('output')">
-                <img
-                  :src="getImgUrl(currentOutputCurrency.image)"
-                  alt="us"
-                  width="22px"
-                />
-
-                <span class="label mx-15">{{
-                  currentOutputCurrency.name
-                }}</span>
-
-                <img src="/down.png" alt="arr" width="16px" />
-              </span>
-            </div>
-            <div class="exchange_input mt-20 d-flex-justify-end">
-              <span class="label mr-10">{{
-                currentOutputCurrency.symbol
-              }}</span>
-              <input
-                v-if="!loadingOutputValue"
-                v-model="returnedAmount"
-                placeholder="0.000"
-                type="number"
-                disabled
-                class="input white"
-              />
-
-              <i v-else class="loader"></i>
-            </div>
-          </div>
-        </div>
-
-        <hr class="rule mt-20" />
-
-        <div class="conve_footer mt-30 mx-30">
-          <span class="d-block"
-            >{{ currentInputCurrency.symbol }} /
-            {{ currentOutputCurrency.symbol }}</span
-          >
-          <span class="d-block mt-0">{{ new Date() }}</span>
-
-          <span class="d-block mt-20"
-            >1 {{ currentInputCurrency.symbol }} =
-            <span class="rate"
-              >{{ toRateValue }} {{ currentOutputCurrency.symbol }}</span
-            ></span
-          >
+        <div>
+          <span>12th Jan 2022</span>
+          <img src="/clock.png" alt="time" width="12px" />
         </div>
       </div>
 
-      <CurrencySelector
-        v-show="showCurrenciesModal"
-        :action-type="actionType"
-        @selectedEvent="currencySelected"
-        @closeModal="showCurrenciesModal = false"
-      />
+      <hr class="rule mt-20" />
+
+      <!-- Input Currency -->
+      <div class="mt-20 mx-30 exchange_container">
+        <h3>CURRENCY I HAVE</h3>
+        <p class="mt-0">I have this much to exchange</p>
+
+        <hr class="rule mt-20" />
+
+        <div class="mt-20">
+          <div class="d-flex-justify-end">
+            <span class="currency d-flex" @click="openModal('input')">
+              <img
+                :src="getImgUrl(currentInputCurrency.image)"
+                alt="us"
+                width="22px"
+              />
+
+              <span class="label mx-15">{{ currentInputCurrency.name }}</span>
+
+              <img src="/down.png" alt="arr" width="16px" />
+            </span>
+          </div>
+          <div class="exchange_input mt-20 d-flex-justify-end">
+            <span class="label mr-10">{{ currentInputCurrency.symbol }}</span>
+            <input
+              v-model="amountEntered"
+              type="number"
+              class="input white"
+              placeholder="0.000"
+            />
+          </div>
+        </div>
+      </div>
+
+      <!-- Switch Currency -->
+      <div class="switch_wrapper mx-30 mt-20">
+        <img src="/switch.png" alt="icon" width="25px" />
+        <span>Switch Currencies</span>
+      </div>
+
+      <!-- Output Currency -->
+      <div class="mt-30 mx-30 exchange_container">
+        <h3>CURRENCY I WANT</h3>
+        <p class="mt-0">Expected amount after exchange</p>
+
+        <hr class="rule mt-20" />
+
+        <div class="mt-20">
+          <div class="d-flex-justify-end">
+            <span class="currency d-flex" @click="openModal('output')">
+              <img
+                :src="getImgUrl(currentOutputCurrency.image)"
+                alt="us"
+                width="22px"
+              />
+
+              <span class="label mx-15">{{ currentOutputCurrency.name }}</span>
+
+              <img src="/down.png" alt="arr" width="16px" />
+            </span>
+          </div>
+          <div class="exchange_input mt-20 d-flex-justify-end">
+            <span class="label mr-10">{{ currentOutputCurrency.symbol }}</span>
+            <input
+              v-if="!loadingOutputValue"
+              v-model="returnedAmount"
+              placeholder="0.000"
+              type="number"
+              disabled
+              class="input white"
+            />
+
+            <i v-else class="loader"></i>
+          </div>
+        </div>
+      </div>
+
+      <hr class="rule mt-20" />
+
+      <div class="conve_footer mt-30 mx-30">
+        <span class="d-block"
+          >{{ currentInputCurrency.symbol }} /
+          {{ currentOutputCurrency.symbol }}</span
+        >
+        <span class="d-block mt-0">{{ new Date() }}</span>
+
+        <span class="d-block mt-20"
+          >1 {{ currentInputCurrency.symbol }} =
+          <span class="rate"
+            >{{ toRateValue }} {{ currentOutputCurrency.symbol }}</span
+          ></span
+        >
+      </div>
     </div>
+
+    <CurrencySelector
+      v-show="showCurrenciesModal"
+      :action-type="actionType"
+      @selectedEvent="currencySelected"
+      @closeModal="showCurrenciesModal = false"
+    />
   </div>
 </template>
 

@@ -1,37 +1,68 @@
 export default {
   name: 'currencyService',
 
-  async getCurrencies() {
-    const currencies = await this.getCurrencyFromApi()
+  getCurrencies() {
+    // const currencies = await this.getCurrencyFromApi()
 
-    const usefulCurrencies = ['EUR', 'USD', 'GBP', 'GHS', 'NGN', 'HKD']
+    // const usefulCurrencies = ['EUR', 'USD', 'GBP', 'GHS', 'NGN', 'HKD']
 
-    const newCurrencies = []
+    const newCurrencies = [
+      {
+        name: 'Euro',
+        symbol: 'EUR',
+        image: 'EUR.png',
+      },
+      {
+        name: 'United States Dollar',
+        symbol: 'USD',
+        image: 'USD.png',
+      },
+      {
+        name: 'British Pound Sterling',
+        symbol: 'GBP',
+        image: 'GBP.png',
+      },
+      {
+        name: 'Ghana Cedi',
+        symbol: 'GHS',
+        image: 'GHS.png',
+      },
+      {
+        name: 'Nigerian Naira',
+        symbol: 'NGN',
+        image: 'NGN.png',
+      },
+      {
+        name: 'Hong Kong Dollar',
+        symbol: 'HKD',
+        image: 'HKD.png',
+      },
+    ]
 
-    // iterate over currencies from api
-    usefulCurrencies.forEach((curr, index) => {
-      // push the object keys and values to the new array
-      newCurrencies.push({
-        name: currencies.symbols[curr],
-        symbol: `${curr}`,
-        image: `${curr}.png`,
-      })
-    })
+    // // iterate over currencies from api
+    // usefulCurrencies.forEach((curr, index) => {
+    //   // push the object keys and values to the new array
+    //   newCurrencies.push({
+    //     name: currencies.symbols[curr],
+    //     symbol: `${curr}`,
+    //     image: `${curr}.png`,
+    //   })
+    // })
 
     return {
       data: newCurrencies,
     }
   },
 
-  getCurrencyFromApi() {
-    const exchageUrl =
-      'http://data.fixer.io/api/symbols?access_key=2f8c274294f5d305ee13472e77ada8a0'
+  // getCurrencyFromApi() {
+  //   const exchageUrl =
+  //     'http://data.fixer.io/api/symbols?access_key=2f8c274294f5d305ee13472e77ada8a0'
 
-    return fetch(exchageUrl)
-      .then((res) => res.json())
-      .then((json) => Promise.resolve(json))
-      .catch((error) => Promise.reject(error))
-  },
+  //   return fetch(exchageUrl)
+  //     .then((res) => res.json())
+  //     .then((json) => Promise.resolve(json))
+  //     .catch((error) => Promise.reject(error))
+  // },
 
   async getBaseRates(currencySymbol) {
     const baseRates = await this.getRatesFromApi(currencySymbol)
