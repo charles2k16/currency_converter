@@ -2,7 +2,7 @@
   <div>
     <div id="open-modal" class="modal-window">
       <div>
-        <a href="#" title="Close" class="modal-close">Close</a>
+        <span class="modal-close" @click="$emit('closeModal')">Close</span>
         <div
           v-if="!viewCurrencyList"
           class="d-flex mt-30"
@@ -17,7 +17,7 @@
               v-for="(currency, index) in currencies"
               :key="index"
               class="currency_list"
-              @click="selectedCurrency($event, currency.symbol)"
+              @click="selectedCurrency(currency)"
             >
               <img
                 :src="getImgUrl(currency.image)"
@@ -41,15 +41,16 @@ import currencyService from '../api/currency'
 
 export default {
   name: 'CurrencySelector',
+  props: {
+    actionType: {
+      type: String,
+      default: 'input',
+    },
+  },
   data() {
     return {
       currencySymbol: '',
       viewCurrencyList: false,
-      currentCurrency: {
-        symbol: 'USD',
-        name: 'US Dollar',
-        image: 'USD.png',
-      },
       currencies: [],
     }
   },
@@ -63,11 +64,7 @@ export default {
       return require('../assets/flags/' + pic)
     },
     selectedCurrency(currency) {
-      // this.currentCurrency.symbol = currency.symbol
-      // this.currentCurrency.name = currency.name
-      // this.currentCurrency.image = currency.image
-
-      console.log(currency)
+      this.$emit('selectedEvent', currency)
     },
   },
 }
@@ -82,15 +79,15 @@ export default {
   bottom: 0;
   left: 0;
   z-index: 999;
-  visibility: hidden;
-  opacity: 0;
-  pointer-events: none;
+  visibility: visible;
+  opacity: 1;
+  pointer-events: auto;
   transition: all 0.3s;
-  &:target {
-    visibility: visible;
-    opacity: 1;
-    pointer-events: auto;
-  }
+  // &:target {
+  //   visibility: visible;
+  //   opacity: 1;
+  //   pointer-events: auto;
+  // }
   & > div {
     max-width: 300px;
     width: 90%;
@@ -116,6 +113,7 @@ export default {
   top: 0;
   width: 70px;
   text-decoration: none;
+  cursor: pointer;
 }
 
 .currency_list {

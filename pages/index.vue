@@ -1,127 +1,164 @@
 <template>
-  <div class="converter_container d-flex-justify-center">
-    <div class="conv_wrapper">
-      <div class="conv_head mx-30">
-        <span class="link active">Converter</span>
-
-        <span class="link">Calculator</span>
-      </div>
-
-      <div class="mt-20 conv_title mx-30">
-        <h1 class="white">Currency</h1>
-
-        <div>
-          <span>12th Jan 2022</span>
-          <img src="/clock.png" alt="time" width="12px" />
-        </div>
-      </div>
-
-      <hr class="rule mt-20" />
-
-      <!-- Input Currency -->
-      <div class="mt-20 mx-30 exchange_container">
-        <h3>CURRENCY I HAVE</h3>
-        <p class="mt-0">I have this much to exchange</p>
-
-        <hr class="rule mt-20" />
-
-        <div class="mt-20">
-          <div class="d-flex-justify-end">
-            <span class="currency d-flex">
-              <img
-                :src="getImgUrl(currentCurrency.image)"
-                alt="us"
-                width="22px"
-              />
-              <a class="btn" href="#open-modal">
-                <span class="label mx-15">{{ currentCurrency.name }}</span>
-              </a>
-              <img src="/down.png" alt="arr" width="16px" />
-            </span>
-          </div>
-          <div class="exchange_input mt-20 d-flex-justify-end">
-            <span class="label mr-10">{{ fromCurrency }}</span>
-            <span
-              class="input white"
-              role="textbox"
-              contenteditable
-              @input="handleInputAmount"
-              >{{ amountEntered }}</span
-            >
-          </div>
-        </div>
-      </div>
-
-      <!-- Switch Currency -->
-      <div class="switch_wrapper mx-30 mt-20">
-        <img src="/switch.png" alt="icon" width="25px" />
-        <span>Switch Currencies</span>
-      </div>
-
-      <!-- Output Currency -->
-      <div class="mt-30 mx-30 exchange_container">
-        <h3>CURRENCY I WANT</h3>
-        <p class="mt-0">Expected amount after exchange</p>
-
-        <hr class="rule mt-20" />
-
-        <div class="mt-20">
-          <div class="d-flex-justify-end">
-            <span class="currency d-flex">
-              <img
-                :src="getImgUrl(currentCurrency.image)"
-                alt="us"
-                width="22px"
-              />
-              <a class="btn" href="#open-modal">
-                <span class="label mx-15">{{ currentCurrency.name }}</span>
-              </a>
-              <img src="/down.png" alt="arr" width="16px" />
-            </span>
-          </div>
-          <div class="exchange_input mt-20 d-flex-justify-end">
-            <span class="label mr-10">{{ toCurrency }}</span>
-            <span class="input white" role="textbox" :contenteditable="false">{{
-              returnedAmount
-            }}</span>
-          </div>
-        </div>
-      </div>
-
-      <hr class="rule mt-20" />
-
-      <div class="conve_footer mt-30 mx-30">
-        <span class="d-block">{{ fromCurrency }} / {{ toCurrency }}</span>
-        <span class="d-block mt-0">{{ new Date() }}</span>
-
-        <span class="d-block mt-20"
-          >1 {{ fromCurrency }} =
-          <span class="rate">6.35444 {{ toCurrency }}</span></span
-        >
+  <div>
+    <div class="overlay">
+      <div class="overlay__inner">
+        <div class="overlay__content"><span class="spinner"></span></div>
       </div>
     </div>
+    <div class="converter_container d-flex-justify-center">
+      <div class="conv_wrapper">
+        <div class="conv_head mx-30">
+          <span class="link active">Converter</span>
 
-    <CurrencySelector />
+          <span class="link">Calculator</span>
+        </div>
+
+        <div class="mt-20 conv_title mx-30">
+          <h1 class="white">Currency</h1>
+
+          <div>
+            <span>12th Jan 2022</span>
+            <img src="/clock.png" alt="time" width="12px" />
+          </div>
+        </div>
+
+        <hr class="rule mt-20" />
+
+        <!-- Input Currency -->
+        <div class="mt-20 mx-30 exchange_container">
+          <h3>CURRENCY I HAVE</h3>
+          <p class="mt-0">I have this much to exchange</p>
+
+          <hr class="rule mt-20" />
+
+          <div class="mt-20">
+            <div class="d-flex-justify-end">
+              <span class="currency d-flex" @click="openModal('input')">
+                <img
+                  :src="getImgUrl(currentInputCurrency.image)"
+                  alt="us"
+                  width="22px"
+                />
+
+                <span class="label mx-15">{{ currentInputCurrency.name }}</span>
+
+                <img src="/down.png" alt="arr" width="16px" />
+              </span>
+            </div>
+            <div class="exchange_input mt-20 d-flex-justify-end">
+              <span class="label mr-10">{{ currentInputCurrency.symbol }}</span>
+              <input
+                v-model="amountEntered"
+                type="number"
+                class="input white"
+                placeholder="0.000"
+              />
+            </div>
+          </div>
+        </div>
+
+        <!-- Switch Currency -->
+        <div class="switch_wrapper mx-30 mt-20">
+          <img src="/switch.png" alt="icon" width="25px" />
+          <span>Switch Currencies</span>
+        </div>
+
+        <!-- Output Currency -->
+        <div class="mt-30 mx-30 exchange_container">
+          <h3>CURRENCY I WANT</h3>
+          <p class="mt-0">Expected amount after exchange</p>
+
+          <hr class="rule mt-20" />
+
+          <div class="mt-20">
+            <div class="d-flex-justify-end">
+              <span class="currency d-flex" @click="openModal('output')">
+                <img
+                  :src="getImgUrl(currentOutputCurrency.image)"
+                  alt="us"
+                  width="22px"
+                />
+
+                <span class="label mx-15">{{
+                  currentOutputCurrency.name
+                }}</span>
+
+                <img src="/down.png" alt="arr" width="16px" />
+              </span>
+            </div>
+            <div class="exchange_input mt-20 d-flex-justify-end">
+              <span class="label mr-10">{{
+                currentOutputCurrency.symbol
+              }}</span>
+              <input
+                v-if="!loadingOutputValue"
+                v-model="returnedAmount"
+                placeholder="0.000"
+                type="number"
+                disabled
+                class="input white"
+              />
+
+              <i v-else class="loader"></i>
+            </div>
+          </div>
+        </div>
+
+        <hr class="rule mt-20" />
+
+        <div class="conve_footer mt-30 mx-30">
+          <span class="d-block"
+            >{{ currentInputCurrency.symbol }} /
+            {{ currentOutputCurrency.symbol }}</span
+          >
+          <span class="d-block mt-0">{{ new Date() }}</span>
+
+          <span class="d-block mt-20"
+            >1 {{ currentInputCurrency.symbol }} =
+            <span class="rate"
+              >{{ toRateValue }} {{ currentOutputCurrency.symbol }}</span
+            ></span
+          >
+        </div>
+      </div>
+
+      <CurrencySelector
+        v-show="showCurrenciesModal"
+        :action-type="actionType"
+        @selectedEvent="currencySelected"
+        @closeModal="showCurrenciesModal = false"
+      />
+    </div>
   </div>
 </template>
 
 <script>
+import currencyService from '../api/currency'
+
 export default {
   name: 'IndexPage',
   data() {
     return {
-      fromCurrency: 'USD',
+      showCurrenciesModal: false,
+      loadingOutputValue: false,
       toCurrency: 'HKD',
       amountEntered: null,
       returnedAmount: null,
-      currentCurrency: {
+      toRateValue: 0.0,
+      actionType: 'input',
+      currentInputCurrency: {
         symbol: 'USD',
         name: 'US Dollar',
         image: 'USD.png',
       },
+      currentOutputCurrency: {
+        symbol: 'HKD',
+        name: 'Honk Kong Dollar',
+        image: 'HKD.png',
+      },
       convertForm: {
-        from: '',
-        to: '',
+        fromCurrency: '',
+        toCurrency: '',
         amount: 0,
       },
     }
@@ -133,6 +170,47 @@ export default {
     handleInputAmount(e) {
       this.amountEntered = e.target.innerHTML
       console.log(this.amountEntered)
+    },
+    openModal(type) {
+      // set actionn type to know whether its an input or output
+      this.actionType = type
+      this.showCurrenciesModal = true
+    },
+    currencySelected(currentSelectedCurrency) {
+      if (this.actionType === 'input') {
+        this.currentInputCurrency = currentSelectedCurrency
+        this.showCurrenciesModal = false
+      } else if (this.actionType === 'output') {
+        this.currentOutputCurrency = currentSelectedCurrency
+        this.convertBaseRates()
+      }
+    },
+    async convertBaseRates() {
+      const rates = await currencyService.getBaseRates(
+        this.currentInputCurrency.symbol
+      )
+
+      const results = rates.data.filter(
+        (currency) => currency.symbol === this.currentOutputCurrency.symbol
+      )
+
+      this.toRateValue = results.length > 0 ? results[0].rate : 0
+
+      this.showCurrenciesModal = false
+      this.loadingOutputValue = true
+      this.convertCurrency()
+    },
+    async convertCurrency() {
+      this.convertForm.fromCurrency = this.currentInputCurrency.symbol
+      this.convertForm.toCurrency = this.currentOutputCurrency.symbol
+      this.convertForm.amount = this.amountEntered
+
+      const amountConverted = await currencyService.convertCurrency(
+        this.convertForm
+      )
+
+      this.returnedAmount = amountConverted.data.amount_exchanged
+      this.loadingOutputValue = false
     },
   },
 }
@@ -211,23 +289,6 @@ export default {
           font-size: 1.3rem;
         }
 
-        .input {
-          background: transparent;
-          height: 40px;
-          max-width: 300px;
-          display: flex;
-          align-items: center;
-          font-size: 36px;
-          font-weight: bold;
-        }
-
-        .input[contenteditable]:empty::before {
-          content: '0.00';
-          color: gray;
-        }
-
-        // output currency
-
         input::-webkit-outer-spin-button,
         input::-webkit-inner-spin-button {
           -webkit-appearance: none;
@@ -243,14 +304,10 @@ export default {
         }
         input {
           background: transparent;
-
           width: 130px;
-
           border: none;
-
           font-size: 36px;
           font-weight: bold;
-
           ::placeholder {
             font-size: 36px;
           }
@@ -259,6 +316,7 @@ export default {
     }
     .currency {
       align-items: center;
+      cursor: pointer;
 
       .label {
         color: var(--sec_grey);
