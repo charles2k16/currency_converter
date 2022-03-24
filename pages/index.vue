@@ -1,5 +1,5 @@
 <template>
-  <div class="converter_container d-flex-justify-center">
+  <div class="converter_container">
     <div class="conv_wrapper">
       <div class="conv_head mx-30">
         <span class="link active">Converter</span>
@@ -212,7 +212,8 @@ export default {
   .conv_wrapper {
     margin: 0 auto;
     max-width: 400px;
-    width: 100%;
+    width: 370px;
+    height: 100vh;
 
     overflow: scroll;
     -webkit-overflow-scrolling: touch;
