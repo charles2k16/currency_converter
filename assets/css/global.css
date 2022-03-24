@@ -101,7 +101,6 @@ a {
 .loader::after,
 .loader::before {
   content: '';
-
   position: absolute;
   display: inline-block;
   width: 100%;
